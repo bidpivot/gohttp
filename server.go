@@ -19,8 +19,7 @@ import (
 func main() {
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/hello", jsonResponse)
-	log.Fatal(http.ListenAndServe(":8010", nil))
-	
+	log.Fatal(http.ListenAndServe(":8010", nil)) // what is the nil arg for again?
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request)   {
@@ -33,7 +32,14 @@ func jsonResponse(w http.ResponseWriter, r *http.Request)   {
 	mp1 := map[string]string {
 		"hello": "world",
 	}
-	fmt.Println(r)
+	// r.Method    // "GET", "POST", "PUT" etc
+	// r.URL.Path  // "/hello" — which path they hit
+	// r.Body      // the body of a POST request
+	// r.Header    // any headers the browser sent
+	fmt.Println(r.Method)
+	fmt.Println(r.URL.Path)
+	fmt.Println(r.Body)
+	fmt.Println(r.Header)
 	w.Header().Set("Content-Type", "application/json")
 	// mpjson := json.Marshal(mp1)
 	json.NewEncoder(w).Encode(mp1)
